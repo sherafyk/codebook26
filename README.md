@@ -43,7 +43,7 @@ npm run dev
 1. Push this repo to GitHub.
 2. Import the repo into Vercel.
 3. Vercel will build on every push and create preview deployments for PRs/branches.
-4. Add `codebook.sherafi.com` in Vercel Project Settings → Domains.
+4. Add `codebook.sherafy.com` in Vercel Project Settings → Domains.
 5. Set `NEXT_PUBLIC_SITE_URL` to your production URL.
 
 ## Suggested cleanup in your live repo
