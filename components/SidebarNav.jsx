@@ -4,6 +4,50 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useMemo, useState } from 'react'
 
+function tokenizeQuery(query) {
+  return query
+    .toLowerCase()
+    .split(/[^a-z0-9]+/i)
+    .map((part) => part.trim())
+    .filter(Boolean)
+}
+
+function scoreSearchItem(item, tokens) {
+  if (!tokens.length) return 0
+
+  const title = (item.title || '').toLowerCase()
+  const description = (item.description || '').toLowerCase()
+  const href = (item.href || '').toLowerCase()
+
+  let score = 0
+
+  for (const token of tokens) {
+    const inTitle = title.includes(token)
+    const inDescription = description.includes(token)
+    const inHref = href.includes(token)
+
+    if (!inTitle && !inDescription && !inHref) {
+      return 0
+    }
+
+    if (title === token) score += 220
+    else if (title.startsWith(token)) score += 150
+    else if (inTitle) score += 100
+
+    if (description.startsWith(token)) score += 50
+    else if (inDescription) score += 35
+
+    if (href.includes(`/${token}`) || href.includes(`#${token}`)) score += 40
+    else if (inHref) score += 20
+  }
+
+  if (title.includes(tokens.join(' '))) {
+    score += 80
+  }
+
+  return score
+}
+
 function isBranchActive(node, pathname) {
   if (node.type === 'page') {
     return pathname === node.href
@@ -63,16 +107,21 @@ export default function SidebarNav({ navigation, searchItems }) {
   const [query, setQuery] = useState('')
 
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase()
+    const q = query.trim()
     if (!q) {
       return []
     }
 
-    return searchItems.filter((item) => {
-      return [item.title, item.href, item.description]
-        .filter(Boolean)
-        .some((value) => value.toLowerCase().includes(q))
-    })
+    const tokens = tokenizeQuery(q)
+
+    return searchItems
+      .map((item) => ({
+        ...item,
+        score: scoreSearchItem(item, tokens),
+      }))
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
+      .slice(0, 20)
   }, [query, searchItems])
 
   return (
@@ -100,7 +149,7 @@ export default function SidebarNav({ navigation, searchItems }) {
           <div className="search-results">
             {filtered.length ? (
               filtered.map((item) => (
-                <Link key={item.href} href={item.href} className="search-result">
+                <Link key={item.key || item.href} href={item.href} className="search-result">
                   <strong>{item.title}</strong>
                   <span>{item.href}</span>
                 </Link>
