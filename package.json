@@ -1,6 +1,10 @@
 {
   "name": "codebook-nextjs-vercel",
   "private": true,
+  "packageManager": "npm@10.8.2",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

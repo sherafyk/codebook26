@@ -2,9 +2,8 @@
 
 import { useState } from 'react'
 
-export default function CodeBlock({ children, className = '' }) {
+export default function CodeBlock({ code = '', className = '' }) {
   const [copied, setCopied] = useState(false)
-  const code = typeof children === 'string' ? children : String(children)
 
   async function handleCopy() {
     try {
