@@ -8,16 +8,22 @@ export default function Sidebar() {
     .filter((doc) => doc.href !== '/')
     .flatMap((doc) => {
       const baseItem = {
+        key: `${doc.href}::doc`,
         title: doc.title,
         href: doc.href,
         description: doc.description,
       }
 
-      const headingItems = (doc.headings || []).map((heading) => ({
-        title: heading.text,
-        href: heading.id ? `${doc.href}#${heading.id}` : doc.href,
-        description: doc.title,
-      }))
+      const headingItems = (doc.headings || []).map((heading, index) => {
+        const href = heading.id ? `${doc.href}#${heading.id}` : doc.href
+
+        return {
+          key: `${href}::heading::${index}`,
+          title: heading.text,
+          href,
+          description: doc.title,
+        }
+      })
 
       return [baseItem, ...headingItems]
     })
