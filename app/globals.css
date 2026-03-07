@@ -1,0 +1,378 @@
+@import './github-markdown.css';
+
+:root {
+  --bg: #0d1117;
+  --panel: #161b22;
+  --panel-2: #0f141a;
+  --text: #c9d1d9;
+  --muted: #8b949e;
+  --border: #30363d;
+  --link: #58a6ff;
+  --accent: #1f6feb;
+  --code: #0b0f14;
+  --success-bg: rgba(35, 134, 54, 0.12);
+  --warning-bg: rgba(187, 128, 9, 0.14);
+  --danger-bg: rgba(248, 81, 73, 0.12);
+  --info-bg: rgba(56, 139, 253, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', sans-serif;
+}
+
+a {
+  color: var(--link);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.site-shell {
+  min-height: 100vh;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid var(--border);
+  background: rgba(13, 17, 23, 0.92);
+  backdrop-filter: blur(14px);
+}
+
+.site-header__inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+}
+
+.site-brand {
+  display: inline-block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #f0f6fc;
+}
+
+.site-tagline {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.sidebar-shell {
+  position: sticky;
+  top: 73px;
+  align-self: start;
+  height: calc(100vh - 73px);
+  overflow: auto;
+  border-right: 1px solid var(--border);
+  background: var(--panel-2);
+}
+
+.sidebar-inner {
+  padding: 1rem;
+}
+
+.sidebar-search {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.sidebar-note {
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.nav-list,
+.nav-list ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.nav-folder {
+  margin: 0.35rem 0;
+}
+
+.nav-folder > summary {
+  cursor: pointer;
+  color: #f0f6fc;
+  font-weight: 600;
+  padding: 0.35rem 0;
+}
+
+.nav-folder ul {
+  margin-left: 0.85rem;
+  border-left: 1px solid rgba(48, 54, 61, 0.7);
+  padding-left: 0.85rem;
+}
+
+.nav-link,
+.nav-folder-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0.4rem 0.55rem;
+  border-radius: 10px;
+  color: var(--text);
+  text-decoration: none;
+  line-height: 1.3;
+}
+
+.nav-folder-link {
+  font-weight: 600;
+}
+
+.nav-link:hover,
+.nav-folder-link:hover,
+.nav-folder > summary:hover {
+  background: rgba(240, 246, 252, 0.06);
+}
+
+.nav-link.active,
+.nav-folder-link.active {
+  background: rgba(31, 111, 235, 0.2);
+  color: #ffffff;
+}
+
+.search-results {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.search-result {
+  display: block;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+  text-decoration: none;
+  color: inherit;
+}
+
+.search-result strong {
+  display: block;
+}
+
+.search-result span {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.search-result:hover {
+  border-color: rgba(88, 166, 255, 0.55);
+}
+
+.search-result.active {
+  border-color: var(--accent);
+}
+
+.nav-folder > details[open] > summary {
+  color: #f0f6fc;
+}
+
+.main-shell {
+  min-width: 0;
+}
+
+.page-shell {
+  padding: 1.5rem clamp(1rem, 2vw, 2.25rem) 3rem;
+}
+
+.page-shell .markdown-body {
+  max-width: 920px;
+  margin: 0 auto;
+  background: transparent;
+  color: var(--text);
+}
+
+.page-shell .markdown-body h1,
+.page-shell .markdown-body h2,
+.page-shell .markdown-body h3,
+.page-shell .markdown-body h4,
+.page-shell .markdown-body h5,
+.page-shell .markdown-body h6 {
+  scroll-margin-top: 100px;
+}
+
+.page-shell .markdown-body hr {
+  border-color: var(--border);
+}
+
+.page-shell .markdown-body table {
+  width: 100%;
+  display: table;
+}
+
+.page-shell .markdown-body blockquote {
+  border-left-color: #6e7681;
+}
+
+.page-shell .markdown-body code,
+.page-shell .markdown-body pre {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.code-block {
+  position: relative;
+  margin: 1rem 0;
+}
+
+.code-block pre {
+  margin: 0;
+  overflow-x: auto;
+  background: var(--code) !important;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.code-block__button {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+}
+
+.code-block__button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.breadcrumbs {
+  max-width: 920px;
+  margin: 0 auto 1rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.breadcrumbs ol {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.breadcrumbs li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.breadcrumbs li:not(:last-child)::after {
+  content: '›';
+  color: var(--muted);
+}
+
+.callout {
+  border: 1px solid var(--border);
+  border-left-width: 4px;
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  margin: 1rem 0;
+}
+
+.callout--note,
+.callout--tip,
+.callout--important {
+  background: var(--info-bg);
+}
+
+.callout--warning,
+.callout--caution {
+  background: var(--warning-bg);
+}
+
+.callout--error {
+  background: var(--danger-bg);
+}
+
+.callout--success {
+  background: var(--success-bg);
+}
+
+.callout__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.45rem;
+  font-weight: 700;
+}
+
+.empty-state {
+  max-width: 720px;
+  margin: 4rem auto;
+  padding: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--panel);
+}
+
+.button-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+}
+
+@media (max-width: 980px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-shell {
+    position: static;
+    top: auto;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .page-shell {
+    padding-top: 1rem;
+  }
+}
