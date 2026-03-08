@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 function tokenizeQuery(query) {
   return query
@@ -105,6 +105,18 @@ function NavTree({ nodes, pathname }) {
 export default function SidebarNav({ navigation, searchItems }) {
   const pathname = usePathname()
   const [query, setQuery] = useState('')
+  const searchInputRef = useRef(null)
+
+  useEffect(() => {
+    if (pathname === '/') {
+      setQuery('')
+    }
+  }, [pathname])
+
+  const clearSearch = () => {
+    setQuery('')
+    searchInputRef.current?.focus()
+  }
 
   const filtered = useMemo(() => {
     const q = query.trim()
@@ -128,18 +140,36 @@ export default function SidebarNav({ navigation, searchItems }) {
     <aside className="sidebar-shell">
       <div className="sidebar-inner">
         <input
+          ref={searchInputRef}
           type="search"
           className="sidebar-search"
           placeholder="Search pages, snippets, guides..."
           value={query}
+          autoComplete="off"
+          spellCheck={false}
           onChange={(event) => setQuery(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === 'Escape' && query) {
+              event.preventDefault()
+              clearSearch()
+            }
+          }}
         />
+        {query ? (
+          <button type="button" className="sidebar-search-clear" onClick={clearSearch}>
+            Clear search
+          </button>
+        ) : null}
         <p className="sidebar-note">
           Every markdown file under <code>content/</code> becomes a page.
         </p>
 
         <div className="search-results" style={{ marginBottom: '1rem' }}>
-          <Link href="/" className={`search-result${pathname === '/' ? ' active' : ''}`}>
+          <Link
+            href="/"
+            className={`search-result${pathname === '/' ? ' active' : ''}`}
+            onClick={() => setQuery('')}
+          >
             <strong>Home</strong>
             <span>/</span>
           </Link>
