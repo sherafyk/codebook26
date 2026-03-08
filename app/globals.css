@@ -105,6 +105,23 @@ img {
   margin-bottom: 1rem;
 }
 
+.sidebar-search-clear {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  margin: -0.45rem 0 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.sidebar-search-clear:hover {
+  color: var(--text);
+  border-color: rgba(88, 166, 255, 0.55);
+}
+
 .sidebar-note {
   margin: 0 0 1rem;
   font-size: 0.85rem;
